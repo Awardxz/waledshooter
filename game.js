@@ -15,16 +15,14 @@ let blastY = 0;
 let blastX = 0;
 let enemy;
 let scoreNumber = 0;
-const blasting = [{transform: 'translateY(0px)   rotate(-90deg)'},{ transform : 'translateY(-2000px)  rotate(-90deg)'}] 
+let enemiesNumber = 0;
+const blasting = [{transform: 'translateY(0px)   rotate(-90deg) '},{ transform : 'translateY(-2000px)  rotate(-90deg)'}] 
 
-document.addEventListener('mousemove', setCoords);
-
-function setCoords(e) {
+document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     whoosh();
-}
-
+});
 
 
 const whoosh1 = new Audio('./soundeffects/swing1.mp3');
@@ -39,7 +37,7 @@ const whoosh = () => {
     } else if (mouseX > prevMouseX + 5) {
     whoosh2.play();
     }
-    prevMouseX = mouseX; // Update prevMouseX for the next iteration
+    prevMouseX = mouseX; 
 }
 
 
@@ -60,10 +58,7 @@ setInterval(moveCursor, 1);
 document.addEventListener('click',Shoot)
 
 function Shoot() {
-    // Apply knockback
-    let knockbackX = posXX - 100;
-    let knockbackY = posYY - 100;
-    
+
     gun.style.transform = `translate3d(${posXX}px, ${posYY += 100}px, 0) rotate(-90deg)`;
 
     // Create a blast
@@ -141,6 +136,7 @@ function update() {
             document.body.removeChild(enemy); // Remove enemy
             Enemy();
             scoreNumber+= 10;
+            enemiesNumber++;
             UpdateScore();
         }
     }
@@ -152,6 +148,9 @@ setInterval(update,1)
 
 function UpdateScore() {
     let score = document.getElementById('score');
+    let enemies = document.getElementById('enemies');
+
+    enemies.innerText = enemiesNumber + " airships elimnated";
     score.innerText = "SCORE : " + scoreNumber;
     console.log(scoreNumber)
 }

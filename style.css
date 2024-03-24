@@ -12,9 +12,6 @@ body {
 
 .main{
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 30px;
 }
 
@@ -40,6 +37,14 @@ body {
  
 }
 
+#enemies {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "VT323", monospace;
+    font-size: 20px;
+    color: white;
+}
 .gun{
     height: 32px;
     width: 80px;
