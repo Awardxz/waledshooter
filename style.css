@@ -1,8 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 body {
-    background-color: rgb(0, 0, 0);
+    background-color: black;
     pointer-events: none;
     user-select: none;
     overflow: hidden;
+    cursor:none
+}
+
+
+
+#score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "VT323", monospace;
+    font-size: 50px;
+    color: white;
+
+ 
 }
 
 .gun{
@@ -12,8 +28,8 @@ body {
     pointer-events: none;
     user-select: none;
     cursor: none;
+    
 }
-
 
 .blast{
     width: 35px;
@@ -22,22 +38,7 @@ body {
     pointer-events: none;
     user-select: none;
     transform: rotate(-90deg);
-    animation: blastAnimation  1s ; /* Apply the animation */
-
-}
-
-
-@keyframes blastAnimation {
-    from {
-        transform:  translateY(0px)
-                    rotate(-90deg); /* Starting position */
-        
-    }
-    to {
-        transform: translateY(-1000px)
-                   rotate(-90deg); /* Ending position */
-        
-    }
+ 
 }
 
 .enemy{

@@ -11,6 +11,8 @@ let mouseY = 0;
 let blastY = 0;
 let blastX = 0;
 let enemy;
+let scoreNumber = 0;
+const blasting = [{transform: 'translateY(0px)   rotate(-90deg)'/* Starting position */},{ transform : 'translateY(-2000px)  rotate(-90deg)' /* Ending position */ }]
 
 document.addEventListener('mousemove', setCoords);
 
@@ -37,14 +39,14 @@ function Shoot() {
     // Apply knockback
     let knockbackX = posXX - 100;
     let knockbackY = posYY - 100;
-
+    
     gun.style.transform = `translate3d(${posXX}px, ${posYY += 100}px, 0) rotate(-90deg)`;
 
     // Create a blast
     const blast = document.createElement('img');
     blast.src = './blast.png';
     blast.classList.add('blast');// Apply the blast class to trigger the animation
-    
+
 
     // Position the blast
     blastX = posXX + 25;
@@ -52,9 +54,9 @@ function Shoot() {
     blast.style.position = 'absolute';
     blast.style.left = blastX + 'px';
     blast.style.top = blastY + 'px';
-
-    // Add blast to the document
     document.body.appendChild(blast);
+    // Add blast to the document
+    blast.animate(blasting,{duration:1200,fill:"forwards"});
     // Sound effect GO BOM BOM BOM BOM
     const sound_effect = new Audio("soundeffect.mp3")
     sound_effect.play();
@@ -63,14 +65,12 @@ function Shoot() {
     // Remove the blast after a short delay
     setTimeout(() => {
         document.body.removeChild(blast);
-    }, 1000); // Adjust the delay as needed
+    }, 1200); // Adjust the delay as needed
 
-    console.log(blast)
-    console.log(enemy)
 }
 
 function Random() {
-    return Math.floor(Math.random() * 101)
+    return Math.floor(Math.random() * 800)
 }
 
 function Enemy () {
@@ -78,11 +78,10 @@ function Enemy () {
     enemy = document.createElement('img')
     enemy.classList.add('enemy');
     enemy.src = './enemy.png'
-    document.body.appendChild(enemy);
     const enemyRect = enemy.getBoundingClientRect();
     enemy.style.left = Random() + 'px';
     enemy.style.top = Random() + 'px';
-    
+    document.body.appendChild(enemy);
 
 
 }
@@ -90,38 +89,49 @@ function Enemy () {
 Enemy()
 
 function checkCollision(blast, enemy) {
-    let blastRect = blast.getBoundingClientRect();
-    let enemyRect = enemy.getBoundingClientRect();
+    for (let i = 0; i < blast.length; i++) {
+        let blastRect = blast[i].getBoundingClientRect();
+        let enemyRect = enemy.getBoundingClientRect();
 
-    // Check for collision
-    if (
-        blastRect.left < enemyRect.right &&
-        blastRect.right > enemyRect.left &&
-        blastRect.top < enemyRect.bottom &&
-        blastRect.bottom > enemyRect.top
-    ) {
-        return true; // Collision detected
+        if (
+            blastRect.left < enemyRect.right &&
+            blastRect.right > enemyRect.left &&
+            blastRect.top < enemyRect.bottom &&
+            blastRect.bottom > enemyRect.top
+        ) {
+            return true; 
+        }
     }
-
-    return false; // No collision
+    
+    return false; 
 }
+
 
 function update() {
 
     // Check collision between blast and enemy
-    let blast = document.querySelector('.blast');
+    let blast = document.querySelectorAll('.blast');
     let enemy = document.querySelector('.enemy');
-    
     if (blast && enemy) {
         if (checkCollision(blast, enemy)) {
             document.body.removeChild(enemy); // Remove enemy
-            Enemy()
-
+            Enemy();
+            scoreNumber+= 10;
+            UpdateScore();
         }
     }
   
     
 }
 
-setInterval(update,1);
+setInterval(update,1)
+
+function UpdateScore() {
+    let score = document.getElementById('score');
+    score.innerText = "SCORE : " + scoreNumber;
+    console.log(scoreNumber)
+}
+
+
+
 
