@@ -2,13 +2,32 @@
 
 body {
     background-color: black;
+    font-family: "VT323", monospace;
+    font-size: 50px;
     pointer-events: none;
     user-select: none;
     overflow: hidden;
     cursor:none
 }
 
+.main{
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
 
+.button{
+    border: 1PX RED solid;
+    border-radius: 3px;
+    background-color: black;
+    font-family: "VT323", monospace;
+    font-size: 10px;
+    font-weight: 1;
+    color: white;
+    padding: 5px;
+}
 
 #score {
     display: flex;

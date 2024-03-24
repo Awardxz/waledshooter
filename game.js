@@ -1,5 +1,8 @@
+
+
+
 const gun = document.createElement('img');
-gun.src = './gun4.png';
+gun.src = './guns/gun1.png';
 gun.classList.add('gun');
 document.body.appendChild(gun);
 const circleBounds = gun.getBoundingClientRect();
@@ -12,14 +15,35 @@ let blastY = 0;
 let blastX = 0;
 let enemy;
 let scoreNumber = 0;
-const blasting = [{transform: 'translateY(0px)   rotate(-90deg)'/* Starting position */},{ transform : 'translateY(-2000px)  rotate(-90deg)' /* Ending position */ }]
+const blasting = [{transform: 'translateY(0px)   rotate(-90deg)'},{ transform : 'translateY(-2000px)  rotate(-90deg)'}] 
 
 document.addEventListener('mousemove', setCoords);
 
 function setCoords(e) {
     mouseX = e.clientX;
     mouseY = e.clientY;
+    whoosh();
 }
+
+
+
+const whoosh1 = new Audio('./soundeffects/swing1.mp3');
+const whoosh2 = new Audio('./soundeffects/swing2.mp3');
+whoosh1.volume = 0.3;
+whoosh2.volume = 0.3;
+let prevMouseX = mouseX;
+
+const whoosh = () => {
+    if (mouseX < prevMouseX - 5) {
+    whoosh1.play();
+    } else if (mouseX > prevMouseX + 5) {
+    whoosh2.play();
+    }
+    prevMouseX = mouseX; // Update prevMouseX for the next iteration
+}
+
+
+
 
 function moveCursor() {
     let ease =0.1;
@@ -44,7 +68,7 @@ function Shoot() {
 
     // Create a blast
     const blast = document.createElement('img');
-    blast.src = './blast.png';
+    blast.src = './energyblasts/blast.png';
     blast.classList.add('blast');// Apply the blast class to trigger the animation
 
 
@@ -58,7 +82,7 @@ function Shoot() {
     // Add blast to the document
     blast.animate(blasting,{duration:1200,fill:"forwards"});
     // Sound effect GO BOM BOM BOM BOM
-    const sound_effect = new Audio("soundeffect.mp3")
+    const sound_effect = new Audio("./soundeffects/soundeffect.mp3")
     sound_effect.play();
 
 
@@ -77,7 +101,7 @@ function Enemy () {
 
     enemy = document.createElement('img')
     enemy.classList.add('enemy');
-    enemy.src = './enemy.png'
+    enemy.src = './enemies/enemy.png'
     const enemyRect = enemy.getBoundingClientRect();
     enemy.style.left = Random() + 'px';
     enemy.style.top = Random() + 'px';
@@ -131,7 +155,4 @@ function UpdateScore() {
     score.innerText = "SCORE : " + scoreNumber;
     console.log(scoreNumber)
 }
-
-
-
 
