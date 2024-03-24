@@ -156,8 +156,8 @@ function Explosion() {
     explosion.play()
 
     const enemyRect = enemy.getBoundingClientRect();
-    console.log(enemyRect)
-    
+
+
     video.style.position = 'absolute';
     video.style.top = enemyRect.top + 'px';
     video.style.left = enemyRect.left + 'px';
@@ -173,6 +173,6 @@ function UpdateScore() {
 
     enemies.innerText = enemiesNumber + " airships elimnated";
     score.innerText = "SCORE : " + scoreNumber;
-    console.log(scoreNumber)
+
 }
 

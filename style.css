@@ -77,4 +77,5 @@ body {
 .explosion{
    width: 70px;
    height: 70px;
+   mix-blend-mode: screen;
 }
