@@ -55,7 +55,7 @@ function moveCursor() {
 }
 setInterval(moveCursor, 1);
 
-document.addEventListener('click',Shoot)
+document.addEventListener('click',Shoot);
 
 function Shoot() {
 
@@ -68,8 +68,8 @@ function Shoot() {
 
 
     // Position the blast
-    blastX = posXX + 25;
-    blastY = posYY  - 100;
+    blastX = posXX + 26;
+    blastY = posYY  - 50;
     blast.style.position = 'absolute';
     blast.style.left = blastX + 'px';
     blast.style.top = blastY + 'px';
@@ -128,23 +128,44 @@ function checkCollision(blast, enemy) {
 
 function update() {
 
-    // Check collision between blast and enemy
     let blast = document.querySelectorAll('.blast');
     let enemy = document.querySelector('.enemy');
     if (blast && enemy) {
         if (checkCollision(blast, enemy)) {
+            Explosion(); 
             document.body.removeChild(enemy); // Remove enemy
             Enemy();
-            scoreNumber+= 10;
+            scoreNumber += 10;
             enemiesNumber++;
             UpdateScore();
         }
     }
-  
-    
 }
 
 setInterval(update,1)
+
+function Explosion() {
+    const video = document.createElement('video');
+    video.classList.add('explosion');
+    video.src = "./soundeffects/explosion.mp4";
+    video.autoplay = true;
+    document.body.appendChild(video)
+
+    const explosion = new Audio('./soundeffects/explosion.mp3');
+    explosion.volume = 0.3;
+    explosion.play()
+
+    const enemyRect = enemy.getBoundingClientRect();
+    console.log(enemyRect)
+    
+    video.style.position = 'absolute';
+    video.style.top = enemyRect.top + 'px';
+    video.style.left = enemyRect.left + 'px';
+
+    setTimeout(() => {
+        document.body.removeChild(video);
+    }, 1200)
+}
 
 function UpdateScore() {
     let score = document.getElementById('score');
