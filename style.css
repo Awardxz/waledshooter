@@ -1,0 +1,51 @@
+body {
+    background-color: rgb(0, 0, 0);
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+.gun{
+    height: 32px;
+    width: 80px;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    cursor: none;
+}
+
+
+.blast{
+    width: 35px;
+    height: 22px;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    transform: rotate(-90deg);
+    animation: blastAnimation  1s ; /* Apply the animation */
+
+}
+
+
+@keyframes blastAnimation {
+    from {
+        transform:  translateY(0px)
+                    rotate(-90deg); /* Starting position */
+        
+    }
+    to {
+        transform: translateY(-1000px)
+                   rotate(-90deg); /* Ending position */
+        
+    }
+}
+
+.enemy{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+
+}
+
