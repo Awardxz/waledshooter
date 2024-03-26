@@ -54,6 +54,12 @@ body {
     user-select: none;
     cursor: none;
     bottom: 5%;
+    transition: bottom 100ms ease;
+}
+
+.gun1 {
+    transition: bottom 100ms ease;
+    bottom: 2%;
 }
 
 .blast {
@@ -62,6 +68,7 @@ body {
     position: absolute;
     pointer-events: none;
     user-select: none;
+    bottom: 5%;
     transform: rotate(-90deg);
 }
 
