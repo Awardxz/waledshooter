@@ -63,9 +63,9 @@ document.addEventListener('click', Shoot);
 
 function Shoot() {
 
-  gun.classList.add('gun1');
+  gun.classList.add('gunAnimation');
   setTimeout(()=> {
-    gun.classList.remove('gun1');
+    gun.classList.remove('gunAnimation');
   },100)
   // Create a blast
   const blast = document.createElement('img');
