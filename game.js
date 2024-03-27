@@ -139,7 +139,7 @@ function Enemy(container) {
 }
 
 function generateEnemies(container) {
-  for (let i = 0; i <= 10; i++) Enemy(container);
+  for (let i = 0; i <= 7; i++) Enemy(container);
 }
 
 generateEnemies(enemiesContainer);
