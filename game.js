@@ -207,13 +207,11 @@ function update() {
         case 2:
           heartElement[heartCounter].src = "./images/heartdestroyed.png";
         default:
-          console.log(heartCounter);
-          enemiesContainer.innerHTML = "";
-          gameOver = true;
-          setTimeout(() => {
-            RetryButton();
-          }, 1000);
+          console.log(heartCounter);gameOver = true;
 
+          enemiesContainer.innerHTML = "";
+          
+            RetryButton();
           break;
       }
     }
@@ -265,6 +263,8 @@ function RetryButton() {
 
 function checkGame() {
   if (gameOver) {
+    
+
     document.addEventListener("click", Retry);
   } else if (!gameOver) {
     document.removeEventListener("click", Retry);
