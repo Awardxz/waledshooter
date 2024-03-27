@@ -178,14 +178,58 @@ function checkEnemyCollisionBox(enemy) {
   return false;
 }
 
+function RandomPowerUp() {
+  return Math.floor(Math.random() * 5)
+}
+function PowerUp(enemy) {
+  let enemyRect = enemy.getBoundingClientRect();  
+   const powerup = document.createElement('img');
+   powerup.classList.add("powerup");
+
+   const PowerUpAnimation = [
+    { transform: "translateY(0px)" },
+    { transform: `translateY(+${1000}px)` },
+  ];
+
+ 
+  if (RandomPowerUp() == 3) {
+  powerup.src= "./images/powerup1.png"  
+  powerup.style.position = "absolute";
+  powerup.style.top = enemyRect.top + "px";
+  powerup.style.left = enemyRect.left + "px";
+  document.body.appendChild(powerup) ;
+  powerup.animate(PowerUpAnimation, { duration: 1000, fill: "forwards" });
+
+  } else console.log(RandomPowerUp())
+   
+}
+
+function checkCollisionPowerUp(powerup) {
+   if (powerup) {
+    const powerUpBounds = powerup.getBoundingClientRect();
+    
+    if (
+      powerUpBounds.top < circleBounds.bottom &&
+      powerUpBounds.bottom > circleBounds.top
+     ) {
+      document.body.removeChild(powerup)
+      return true;
+     }
+    }
+   return false;
+}
+
 function update() {
   let blast = document.querySelectorAll(".blast");
   let enemies = document.querySelectorAll(`img[class^=enemy-]`);
+  let powerup = document.querySelector(".powerup")
+
 
   for (let i = 0; i < enemies.length; i++) {
     if (blast && enemies[i] && checkCollision(blast, enemies[i])) {
       console.log(enemies[i]);
       Explosion(enemies[i]);
+      PowerUp(enemies[i])
       enemiesContainer.removeChild(enemies[i]); // Remove enemy
       setTimeout(() => {
         Enemy(enemiesContainer);
@@ -207,15 +251,24 @@ function update() {
         case 2:
           heartElement[heartCounter].src = "./images/heartdestroyed.png";
         default:
-          console.log(heartCounter);gameOver = true;
+          console.log(heartCounter);
+          gameOver = true;
 
           enemiesContainer.innerHTML = "";
           
             RetryButton();
           break;
       }
-    }
+
+    } 
+
   }
+  if (checkCollisionPowerUp(powerup)) {
+
+    enemiesContainer.innerHTML = "";
+    generateEnemies(enemiesContainer)
+  }
+
 }
 
 setInterval(update, 1);
