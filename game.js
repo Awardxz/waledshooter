@@ -179,7 +179,7 @@ function checkEnemyCollisionBox(enemy) {
 }
 
 function RandomPowerUp() {
-  return Math.floor(Math.random() * 5)
+  return Math.floor(Math.random() * 10)
 }
 function PowerUp(enemy) {
   let enemyRect = enemy.getBoundingClientRect();  
@@ -198,7 +198,10 @@ function PowerUp(enemy) {
   powerup.style.top = enemyRect.top + "px";
   powerup.style.left = enemyRect.left + "px";
   document.body.appendChild(powerup) ;
-  powerup.animate(PowerUpAnimation, { duration: 1000, fill: "forwards" });
+  powerup.animate(PowerUpAnimation, { duration: 5000, fill: "forwards" });
+  setTimeout(() => {
+    document.body.removeChild(powerup)
+  },5000)
 
   } else console.log(RandomPowerUp())
    
@@ -209,6 +212,8 @@ function checkCollisionPowerUp(powerup) {
     const powerUpBounds = powerup.getBoundingClientRect();
     
     if (
+      powerUpBounds.left > posXX &&
+      powerUpBounds.right > posXX &&
       powerUpBounds.top < circleBounds.bottom &&
       powerUpBounds.bottom > circleBounds.top
      ) {
@@ -253,7 +258,7 @@ function update() {
         default:
           console.log(heartCounter);
           gameOver = true;
-
+          
           enemiesContainer.innerHTML = "";
           
             RetryButton();
@@ -264,7 +269,9 @@ function update() {
 
   }
   if (checkCollisionPowerUp(powerup)) {
-
+    scoreNumber += 10 * enemies.length;
+    enemiesNumber += enemies.length
+    UpdateScore();
     enemiesContainer.innerHTML = "";
     generateEnemies(enemiesContainer)
   }
