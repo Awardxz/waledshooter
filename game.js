@@ -281,11 +281,7 @@ function update() {
     if (powerup.classList.contains("nuke")) {
       scoreNumber += 10 * enemies.length;
       enemiesNumber += enemies.length;
-      UpdateScore();
-      enemiesContainer.innerHTML = "";
-      setTimeout(() => {
-        generateEnemies(enemiesContainer);
-      }, 1000);
+      Nuke()
     } else if (powerup.classList.contains("AutoGun")) {
       AutoGun()
     }
@@ -306,7 +302,14 @@ function AutoGun() {
     clearInterval(TimerShoot)
     AutoGun()
   }
+}
 
+function Nuke() {
+      UpdateScore();
+      enemiesContainer.innerHTML = "";
+      setTimeout(() => {
+        generateEnemies(enemiesContainer);
+      }, 1000);
 }
 
 
