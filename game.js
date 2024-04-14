@@ -106,6 +106,7 @@ function Shoot() {
   blast.animate(blasting, { duration: 1200, fill: "forwards" });
   // Sound effect GO BOM BOM BOM BOM
   const sound_effect = new Audio("./soundeffects/soundeffect.mp3");
+  sound_effect.volume = 0.1;
   sound_effect.play();
 
   // Remove the blast after a short delay
@@ -323,7 +324,7 @@ function Explosion(enemy) {
   document.body.appendChild(video);
 
   const explosion = new Audio("./soundeffects/explosion.mp3");
-  explosion.volume = 0.3;
+  explosion.volume = 0.1;
   explosion.play();
 
   const enemyRect = enemy.getBoundingClientRect();
