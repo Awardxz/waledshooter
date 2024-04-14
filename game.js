@@ -40,6 +40,8 @@ let enemy;
 let scoreNumber = 0;
 let enemiesNumber = 0;
 let gameOver = false;
+let TimerShoot;
+
 const increaseGameSpeed = (enemiesKilled) =>
   enemiesKilled < 50 ? 1 : enemiesKilled / 50;
 
@@ -179,62 +181,70 @@ function checkEnemyCollisionBox(enemy) {
 }
 
 function RandomPowerUp() {
-  return Math.floor(Math.random() * 10)
+  return Math.floor(Math.random() * 11);
 }
 function PowerUp(enemy) {
-  let enemyRect = enemy.getBoundingClientRect();  
-   const powerup = document.createElement('img');
-   powerup.classList.add("powerup");
+  let enemyRect = enemy.getBoundingClientRect();
+  const powerup = document.createElement("img");
+  powerup.classList.add("powerup");
 
-   const PowerUpAnimation = [
+  const PowerUpAnimation = [
     { transform: "translateY(0px)" },
     { transform: `translateY(+${1000}px)` },
   ];
 
- 
   if (RandomPowerUp() == 3) {
-  powerup.src= "./images/powerup1.png"  
-  powerup.style.position = "absolute";
-  powerup.style.top = enemyRect.top + "px";
-  powerup.style.left = enemyRect.left + "px";
-  document.body.appendChild(powerup) ;
-  powerup.animate(PowerUpAnimation, { duration: 5000, fill: "forwards" });
-  setTimeout(() => {
-    document.body.removeChild(powerup)
-  },5000)
-
-  } else console.log(RandomPowerUp())
-   
+    powerup.classList.add("nuke");
+    powerup.src = "./images/powerup1.png";
+    powerup.style.position = "absolute";
+    powerup.style.top = enemyRect.top + "px";
+    powerup.style.left = enemyRect.left + "px";
+    document.body.appendChild(powerup);
+    powerup.animate(PowerUpAnimation, { duration: 6000, fill: "forwards" });
+    setTimeout(() => {
+      document.body.removeChild(powerup);
+    }, 6000);
+  } else if (RandomPowerUp() === 7) {
+    powerup.classList.add("AutoGun");
+    powerup.src = "./images/powerup2.png";
+    powerup.style.position = "absolute";
+    powerup.style.top = enemyRect.top + "px";
+    powerup.style.left = enemyRect.left + "px";
+    document.body.appendChild(powerup);
+    powerup.animate(PowerUpAnimation, { duration: 6000, fill: "forwards" });
+    setTimeout(() => {
+      document.body.removeChild(powerup);
+    }, 6000);
+  } else console.log(RandomPowerUp());
 }
 
 function checkCollisionPowerUp(powerup) {
-   if (powerup) {
+  if (powerup) {
     const powerUpBounds = powerup.getBoundingClientRect();
-    
+
     if (
       powerUpBounds.left > posXX &&
       powerUpBounds.right > posXX &&
       powerUpBounds.top < circleBounds.bottom &&
       powerUpBounds.bottom > circleBounds.top
-     ) {
-      document.body.removeChild(powerup)
+    ) {
+      document.body.removeChild(powerup);
       return true;
-     }
     }
-   return false;
+  }
+  return false;
 }
 
 function update() {
   let blast = document.querySelectorAll(".blast");
   let enemies = document.querySelectorAll(`img[class^=enemy-]`);
-  let powerup = document.querySelector(".powerup")
-
+  let powerup = document.querySelector(".powerup");
 
   for (let i = 0; i < enemies.length; i++) {
     if (blast && enemies[i] && checkCollision(blast, enemies[i])) {
       console.log(enemies[i]);
       Explosion(enemies[i]);
-      PowerUp(enemies[i])
+      PowerUp(enemies[i]);
       enemiesContainer.removeChild(enemies[i]); // Remove enemy
       setTimeout(() => {
         Enemy(enemiesContainer);
@@ -258,25 +268,47 @@ function update() {
         default:
           console.log(heartCounter);
           gameOver = true;
-          
+
           enemiesContainer.innerHTML = "";
-          
-            RetryButton();
+
+          RetryButton();
           break;
       }
-
-    } 
-
+    }
   }
   if (checkCollisionPowerUp(powerup)) {
-    scoreNumber += 10 * enemies.length;
-    enemiesNumber += enemies.length
-    UpdateScore();
-    enemiesContainer.innerHTML = "";
-    generateEnemies(enemiesContainer)
+    
+    if (powerup.classList.contains("nuke")) {
+      scoreNumber += 10 * enemies.length;
+      enemiesNumber += enemies.length;
+      UpdateScore();
+      enemiesContainer.innerHTML = "";
+      setTimeout(() => {
+        generateEnemies(enemiesContainer);
+      }, 1000);
+    } else if (powerup.classList.contains("AutoGun")) {
+      AutoGun()
+    }
+  }
+}
+let AutoGunOn = false;
+function AutoGun() {
+  if (!AutoGunOn) {
+    AutoGunOn = true;
+    TimerShoot = setInterval(() => {
+      Shoot();
+    }, 100);
+    setTimeout(() => {
+      clearInterval(TimerShoot);
+   }, 10000);
+  } else {
+    AutoGunOn = false;
+    clearInterval(TimerShoot)
+    AutoGun()
   }
 
 }
+
 
 setInterval(update, 1);
 
@@ -322,26 +354,29 @@ function RetryButton() {
 }
 
 function checkGame() {
-  if (gameOver) {
-    
 
+  if (gameOver) {
+    setTimeout(() => {
     document.addEventListener("click", Retry);
+  }, 2000);
   } else if (!gameOver) {
     document.removeEventListener("click", Retry);
   }
+
 }
 setInterval(checkGame, 100);
 
 function Retry() {
-  restart.innerHTML = "";
-  heartCounter = -1;
-  enemiesContainer.innerHTML = "";
-  heart.innerHTML = "";
-  createHearts();
-  generateEnemies(enemiesContainer);
-  enemiesNumber = 0;
-  scoreNumber = 0;
-  UpdateScore();
-  gameOver = false;
-  console.log("Input received");
+
+    restart.innerHTML = "";
+    heartCounter = -1;
+    enemiesContainer.innerHTML = "";
+    heart.innerHTML = "";
+    createHearts();
+    generateEnemies(enemiesContainer);
+    enemiesNumber = 0;
+    scoreNumber = 0;
+    UpdateScore();
+    gameOver = false;
+    console.log("Input received");
 }
